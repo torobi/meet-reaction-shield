@@ -13,6 +13,16 @@ function main() {
   observer.observe(document.body, { childList: true, subtree: true });
 
   updateReactionButtons();
+
+  window.addEventListener("message", (event) => {
+    if (event.data?.type === "GET_MEET_EMOJIS") {
+      const result = getEmojiButtons();
+      if (result === undefined) return;
+      const [buttons, _] = result;
+      const emojis = Object.keys(buttons);
+      window.postMessage({ type: "MEET_EMOJIS", emojis }, "*");
+    }
+  });
 }
 
 function updateReactionButtons() {
