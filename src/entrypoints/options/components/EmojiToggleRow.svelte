@@ -31,6 +31,12 @@ function onToggle(emoji: string, reverse = false) {
       onkeydown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           onToggle(emoji, e.shiftKey);
+        } else if (e.key === 'ArrowRight') {
+          const next = e.currentTarget.nextElementSibling as HTMLElement | null;
+          if (next) next.focus();
+        } else if (e.key === 'ArrowLeft') {
+          const prev = e.currentTarget.previousElementSibling as HTMLElement | null;
+          if (prev) prev.focus();
         }
       }}>
       <span class="emoji-icon">{emoji}</span>
