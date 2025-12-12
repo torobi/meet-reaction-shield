@@ -8,13 +8,17 @@ type Props = {
 
 let { meetEmojis, emojiState = $bindable({}) }: Props = $props();
 
-function nextState(current: EmojiState): EmojiState {
+function nextState(current: EmojiState, reverse = false): EmojiState {
   const idx = EMOJI_STATES.indexOf(current);
-  return EMOJI_STATES[(idx + 1) % EMOJI_STATES.length];
+  if (reverse) {
+    return EMOJI_STATES[(idx - 1 + EMOJI_STATES.length) % EMOJI_STATES.length];
+  } else {
+    return EMOJI_STATES[(idx + 1) % EMOJI_STATES.length];
+  }
 }
 
-function onToggle(emoji: string){
-  emojiState[emoji] = nextState(emojiState[emoji] ?? "default");
+function onToggle(emoji: string, reverse = false) {
+  emojiState[emoji] = nextState(emojiState[emoji] ?? "default", reverse);
 }
 </script>
 
@@ -23,8 +27,12 @@ function onToggle(emoji: string){
     <div class="emoji-toggle-item"
       role="button"
       tabindex="0"
-      onclick={(e) => { onToggle(emoji); (e.currentTarget as HTMLElement).blur(); }}
-      onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') onToggle(emoji); }}>
+      onclick={(e) => { onToggle(emoji, e.shiftKey); (e.currentTarget as HTMLElement).blur(); }}
+      onkeydown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onToggle(emoji, e.shiftKey);
+        }
+      }}>
       <span class="emoji-icon">{emoji}</span>
       {#if (emojiState[emoji] === 'confirm')}
         <span class="badge">⚠️</span>
