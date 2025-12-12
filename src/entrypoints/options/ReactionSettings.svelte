@@ -1,6 +1,6 @@
 <script lang="ts">
 import { storage } from '@wxt-dev/storage';
-import IconRow from './components/IconRow.svelte';
+import EmojiToggleRow from './components/EmojiToggleRow.svelte';
 import { type EmojiState } from './types';
 interface StorageData {
   emojiStates: Record<string, EmojiState>;
@@ -40,30 +40,33 @@ onMount(() => {
 let meetEmojis = $state<string[]>([]);
 let emojiState = $state<Record<string, EmojiState>>({});
 
-$inspect(meetEmojis)
 </script>
 
 <style>
+  :root {
+    --c-foreground: #ffffff;
+  }
   :global(body) {
     background-color: #414141;
   }
+  .container {
+    padding: 3rem;
+    margin: 0 auto;
+    max-width: 64rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    color: var(--c-foreground);
+  }
 </style>
 
-<IconRow
-  label=""
-  state="default"
-  {meetEmojis}
-  bind:emojiState
-/>
-<IconRow
-  label="⚠️"
-  state="confirm"
-  {meetEmojis}
-  bind:emojiState
-/>
-<IconRow
-  label="🚫"
-  state="hide"
-  {meetEmojis}
-  bind:emojiState
-/>
+<div class="container">
+  <div class="title">
+    Meet Reaction Shield
+  </div>
+  <EmojiToggleRow {meetEmojis} bind:emojiState />
+</div>
