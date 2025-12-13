@@ -73,10 +73,20 @@ function setConfirmListener(button: HTMLButtonElement, state: EmojiState) {
 function confirmHandler(e: Event) {
   const emoji =
     (e.currentTarget as HTMLElement)?.getAttribute("data-emoji") || "";
-  const ok = window.confirm(`「${emoji}」リアクションを送信しますか？`);
+  const message = getConfirmMessage(emoji);
+  const ok = window.confirm(message);
   if (!ok) {
     e.preventDefault();
     e.stopPropagation();
+  }
+}
+
+function getConfirmMessage(emoji: string): string {
+  const lang = navigator.language;
+  if (lang.startsWith("ja")) {
+    return `「${emoji}」リアクションを送信しますか？`;
+  } else {
+    return `Send reaction “${emoji}”?`;
   }
 }
 
