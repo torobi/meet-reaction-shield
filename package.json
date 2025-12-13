@@ -1,9 +1,26 @@
 {
-  "name": "wxt-svelte-starter",
-  "description": "manifest.json description",
+  "name": "meet-reaction-shield",
+  "description": "Restrict or confirm reactions in Google Meet for better meeting control.",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "author": "torobi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torobi/meet-reaction-shield.git"
+  },
+  "homepage": "https://github.com/torobi/meet-reaction-shield",
+  "bugs": {
+    "url": "https://github.com/torobi/meet-reaction-shield/issues"
+  },
+  "keywords": [
+    "chrome-extension",
+    "google-meet",
+    "emoji",
+    "reaction",
+    "svelte"
+  ],
+  "license": "MIT",
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
@@ -16,6 +33,7 @@
   },
   "devDependencies": {
     "@tsconfig/svelte": "^5.0.5",
+    "@wxt-dev/auto-icons": "^1.1.0",
     "@wxt-dev/module-svelte": "^2.0.3",
     "@wxt-dev/storage": "^1.2.6",
     "svelte": "^5.38.6",
