@@ -1,9 +1,7 @@
-import { mount } from 'svelte';
-import App from './App.svelte';
-import './app.css';
-
-const app = mount(App, {
-  target: document.getElementById('app')!,
+import { mount } from "svelte";
+import ReactionSettings from "../../lib/ReactionSettings.svelte";
+const app = mount(ReactionSettings, {
+  target: document.getElementById("app")!,
 });
 
 export default app;

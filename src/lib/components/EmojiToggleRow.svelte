@@ -1,9 +1,9 @@
 <script lang="ts">
-import { type EmojiState, EMOJI_STATES } from '../types';
+import { type EmojiState, EMOJI_STATES, type EmojiStateMap } from '../types';
 
 type Props = {
   meetEmojis: string[];
-  emojiState: Record<string, EmojiState>;
+  emojiState: EmojiStateMap;
 };
 
 let { meetEmojis, emojiState = $bindable({}) }: Props = $props();
@@ -59,7 +59,6 @@ function onToggle(emoji: string, reverse = false) {
   padding: 0 10px;
   height: 48px;
   width: fit-content;
-  margin: 0 auto;
 }
 .emoji-toggle-item {
   position: relative;

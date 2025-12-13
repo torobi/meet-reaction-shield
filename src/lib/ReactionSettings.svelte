@@ -1,10 +1,8 @@
 <script lang="ts">
 import { storage } from '@wxt-dev/storage';
 import EmojiToggleRow from './components/EmojiToggleRow.svelte';
-import { type EmojiState } from './types';
-interface StorageData {
-  emojiStates: Record<string, EmojiState>;
-}
+import { type EmojiStateMap } from './types';
+import { EMOJI_STATE_MAP_KEY } from '@/lib/storageKeys';
 
 function getMeetEmojis(): Promise<string[]> {
   return new Promise((resolve) => {
@@ -19,18 +17,13 @@ function getMeetEmojis(): Promise<string[]> {
   });
 }
 
-function isStorageData(obj: unknown): obj is StorageData {
-  return typeof obj === 'object' && obj !== null && 'emojiStates' in obj;
-}
-
-
 onMount(() => {
   Promise
-    .all([getMeetEmojis(), storage.getItem("local:emojiStates")])
-    .then(([emojis, storedData]) => {
+    .all([getMeetEmojis(), storage.getItem<EmojiStateMap>(EMOJI_STATE_MAP_KEY)])
+    .then(([emojis, stateMap]) => {
       meetEmojis = emojis;
-      if (isStorageData(storedData)) {
-        emojiState = storedData.emojiStates;
+      if (stateMap) {
+        emojiState = stateMap;
       } else {
         emojiState = Object.fromEntries(emojis.map(e => [e, "default"]));
       }
@@ -38,7 +31,11 @@ onMount(() => {
 })
 
 let meetEmojis = $state<string[]>([]);
-let emojiState = $state<Record<string, EmojiState>>({});
+let emojiState = $state<EmojiStateMap>({});
+
+$effect(() => {
+  storage.setItem(EMOJI_STATE_MAP_KEY, emojiState);
+});
 
 </script>
 
@@ -48,11 +45,14 @@ let emojiState = $state<Record<string, EmojiState>>({});
   }
   :global(body) {
     background-color: #414141;
+    margin: 0;
+    display: flex;
+    place-items: center;
   }
+
   .container {
     padding: 3rem;
-    margin: 0 auto;
-    max-width: 64rem;
+    margin: 0 30px;
     display: flex;
     flex-direction: column;
   }
